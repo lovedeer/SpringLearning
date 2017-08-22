@@ -9,7 +9,7 @@
         <module name="SpringLearning" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="SpringLearning" target="1.5" />
     </bytecodeTargetLevel>
   </component>
