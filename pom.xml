@@ -4,7 +4,6 @@
 
     <properties>
         <file.encoding>UTF-8</file.encoding>
-        <spring.version>4.2.2.RELEASE</spring.version>
         <mysql.version>5.1.39</mysql.version>
         <servlet.version>3.0-alpha-1</servlet.version>
         <aspectj.version>1.8.1</aspectj.version>
@@ -14,6 +13,8 @@
         <jetty.version>8.1.8.v20121106</jetty.version>
         <slf4j.version>1.7.5</slf4j.version>
         <testng.version>6.8.7</testng.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <groupId>SpringLearning</groupId>
@@ -55,7 +56,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
+            <version>4.3.9.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>commons-dbcp</groupId>
