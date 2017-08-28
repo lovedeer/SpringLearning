@@ -19,6 +19,9 @@
             p:viewClass="org.springframework.web.servlet.view.JstlView"
             p:prefix="/html/"
             p:suffix=".html"/>
+    <bean id="jsonConverter"   class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes" value="application/json" />
+    </bean>
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven></mvc:annotation-driven>
 </beans>

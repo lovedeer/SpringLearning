@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="js/angular.min.js"></script>
+    <title>login</title>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<form ng-submit="login()">
+    用户名:
+    <input type="text" name="userName" ng-model="userName">
+    <br>
+    密 码:
+    <input type="password" name="password" ng-model="password">
+    <br>
+    <input type="submit" value="登录"/>
+    <input type="reset" value="重置"/>
+</form>
+<script>
+    var app = angular.module("myApp", []);
+    app.controller("myCtrl", function ($scope, $http) {
+        $scope.login = function () {
+            $scope.loginInfo = {"userName": $scope.userName, "password": $scope.password};
+            $http({
+                method: 'post',
+                url: 'login.do',
+                data: $scope.loginInfo,
+                headers: {'Content-Type': 'application/json;charset=UTF-8', 'Accept': 'application/json'}
+            }).then(function successCallback(response) {
+               alert(response.data.success);
+            }, function errorCallback(response) {
+                console.info("b");
+            });
+        };
+    });
+</script>
+</body>
+</html>
