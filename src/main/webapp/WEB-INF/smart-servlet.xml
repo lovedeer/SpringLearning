@@ -24,4 +24,6 @@
     </bean>
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven></mvc:annotation-driven>
+    <bean id="myBeanFactoryProcessor" class="com.smart.processor.MyBeanFactoryPostProcessor" />
+    <bean id="myBeanPostProcessor" class="com.smart.processor.MyBeanPostProcessor" />
 </beans>
