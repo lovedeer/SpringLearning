@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问题</title>
+</head>
+<body>
+    <table>
+        <tr><th>序号</th><th>问题</th><th>备注</th></tr>
+        <tr>
+            <td>1.</td><td>InstantiationAwareBeanPostProcessor的postProcessBeforeInstantiation()没有返回bean,则不执行
+                postProcessAfterInstantiation()方法。若返回了bean,则返回bean，不再执行后序postProcessBeforeInstantiation()方法
+        </td><td>在AbstractAutowireCapableBeanFactory类中的applyBeanPostProcessorsBeforeInstantiation()中执行</td>
+        </tr>
+    </table>
+</body>
+<style>
+    table , td ,th ,tr{
+        border: solid 1px #555;
+        border-collapse: collapse;
+        padding: 10px;
+    }
+
+</style>
+</html>

@@ -12,6 +12,7 @@
 ">
     <!-- 扫描web包，应用Spring的注解 -->
     <context:component-scan base-package="com.smart.web"/>
+    <!--<context:component-scan base-package="com.smart.domain"/>-->
 
     <!-- 配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
     <bean
@@ -19,11 +20,22 @@
             p:viewClass="org.springframework.web.servlet.view.JstlView"
             p:prefix="/html/"
             p:suffix=".html"/>
-    <bean id="jsonConverter"   class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-        <property name="supportedMediaTypes" value="application/json" />
+    <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes" value="application/json"/>
     </bean>
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven></mvc:annotation-driven>
-    <bean id="myBeanFactoryProcessor" class="com.smart.processor.MyBeanFactoryPostProcessor" />
-    <bean id="myBeanPostProcessor" class="com.smart.processor.MyBeanPostProcessor" />
+    <bean id="myBeanFactoryProcessor" class="com.smart.processor.MyBeanFactoryPostProcessor"/>
+    <bean id="myBeanPostProcessor" class="com.smart.processor.MyBeanPostProcessor"/>
+    <bean id="leader" class="com.smart.domain.Leader" scope="prototype">
+        <property name="user" value="good,1233"/>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="com.smart.domain.User" value="com.smart.processor.UserEditor">
+                </entry>
+            </map>
+        </property>
+    </bean>
 </beans>
