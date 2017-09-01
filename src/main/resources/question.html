@@ -12,6 +12,22 @@
                 postProcessAfterInstantiation()方法。若返回了bean,则返回bean，不再执行后序postProcessBeforeInstantiation()方法
         </td><td>在AbstractAutowireCapableBeanFactory类中的applyBeanPostProcessorsBeforeInstantiation()中执行</td>
         </tr>
+        <tr>
+            <td>2.</td><td>Singleton bean若非lazy-init, 则在容器初始化时，在finishBeanFactoryInitialization(beanFactory)方法中初始化。
+            DefaultListableBeanFactory会执行preInstantiateSingletons()中的getBean(beanName)触发bean的初始化。
+        </td><td>scope 为prototype的bean 会在调用getBean时初始化，本质上是一样的</td>
+        </tr>
+        <tr>
+            <td>3.</td><td>  AbstractAutowireCapableBeanFactory 中的doCreateBean()方法会初始化bean,其中的populateBean(beanName, mbd, instanceWrapper);方法
+            会设置属性值。
+        </td><td>PropertyEditorSupport会在这里运行</td>
+        </tr>
+
+        <tr>
+            <td>4.</td><td> 在populateBean中，AutoWiredAnnotationBeanPostProcessor会执行postProcessPropertyValues(pvs, filteredPds, bw.getWrappedInstance(), beanName)
+        </td><td>注解,注入 metadata.inject(bean, beanName, pvs)</td>
+        </tr>
+
     </table>
 </body>
 <style>
