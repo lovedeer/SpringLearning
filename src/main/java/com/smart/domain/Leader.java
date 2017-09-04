@@ -10,4 +10,11 @@ public class Leader {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void greet() {
+        System.out.println("greeting");
+    }
+    public void service() {
+        System.out.println("service");
+    }
 }

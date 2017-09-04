@@ -28,6 +28,12 @@
         </td><td>注解,注入 metadata.inject(bean, beanName, pvs)</td>
         </tr>
 
+        <tr>
+            <td>5.</td><td> AbstractBeanFactory 的doGetBean()方法中会调用getObjectForBeanInstance(sharedInstance, name, beanName, mbd)方法获取bean实例。
+           若是beanfactory，则会调用工厂方法实例化。最后调用ProxyFactoryBean的getObject()实例化bean。
+        </td><td>getBean(beanName)，若bean为ProxyFactoryBean</td>
+        </tr>
+
     </table>
 </body>
 <style>
