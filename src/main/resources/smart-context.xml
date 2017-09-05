@@ -16,15 +16,19 @@
     <context:component-scan base-package="com.smart.dao"/>
     <context:component-scan base-package="com.smart.service"/>
 
+    <bean class="com.smart.placeholder.EncryptPropertyPlaceholderConfigurer"
+          p:location="classpath:jdbc.properties"
+          p:fileEncoding="utf-8"/>
+
     <!-- 配置数据源 -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close"
-          p:driverClassName="com.mysql.jdbc.Driver"
-          p:url="jdbc:mysql://localhost:3306/sampledb"
-          p:username="root"
-          p:password="123456"/>
+          p:driverClassName="${driverClassName}"
+          p:url="${url}"
+          p:username="${username}"
+          p:password="${password}"/>
 
-	<!-- 配置Jdbc模板  -->
+    <!-- 配置Jdbc模板  -->
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
           p:dataSource-ref="dataSource"/>
