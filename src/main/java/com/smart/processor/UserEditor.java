@@ -1,5 +1,7 @@
 package com.smart.processor;
 
+import com.smart.domain.User;
+
 import java.beans.PropertyEditorSupport;
 
 public class UserEditor extends PropertyEditorSupport {

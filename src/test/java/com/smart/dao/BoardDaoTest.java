@@ -33,7 +33,7 @@ public class BoardDaoTest  extends UnitilsTestNG {
         //通过XlsDataSetBeanFactory数据集绑定工厂创建测试实体
         List<Board> boards = XlsDataSetBeanFactory.createBeans(BoardDaoTest.class, "XiaoChun.SaveBoards.xls", "t_board", Board.class);
         for (Board board : boards) {
-            boardDao.update(board);
+            boardDao.save(board);
         }
     }
 
@@ -47,7 +47,7 @@ public class BoardDaoTest  extends UnitilsTestNG {
     @DataSet(value = "XiaoChun.Boards.xls")//准备数据
     @ExpectedDataSet(value = "XiaoChun.ExpectedBoards.xls")
     public void removeBoard() {
-        Board board = boardDao.get(7);
+        Board board = boardDao.load(7);
         boardDao.remove(board);
     }
 
