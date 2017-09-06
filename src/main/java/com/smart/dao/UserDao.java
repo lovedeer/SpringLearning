@@ -1,51 +1,51 @@
 package com.smart.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import com.smart.domain.User;
 
+/**
+ * User对象Dao
+ */
 @Repository
-public class UserDao {
-	private JdbcTemplate jdbcTemplate;
+public class UserDao extends BaseDao<User> {
+    private static final String GET_USER_BY_USERNAME;
 
-	private  final static String MATCH_COUNT_SQL = " SELECT count(*) FROM t_user  " +
-			" WHERE user_name =? and password=? ";
-	private  final static String UPDATE_LOGIN_INFO_SQL = " UPDATE t_user SET " +
-			" last_visit=?,last_ip=?,credits=?  WHERE user_id =?";
+    static {
+        GET_USER_BY_USERNAME = "from User u where u.userName = ?";
+    }
 
-	public int getMatchCount(String userName, String password) {
+    private static final String QUERY_USER_BY_USERNAME;
 
-		return jdbcTemplate.queryForObject(MATCH_COUNT_SQL, new Object[]{userName, password}, Integer.class);
-	}
+    static {
+        QUERY_USER_BY_USERNAME = "from User u where u.userName like ?";
+    }
 
-	public User findUserByUserName(final String userName) {
-		String sqlStr = " SELECT user_id,user_name,credits "
-				+ " FROM t_user WHERE user_name =? ";
-		final User user = new User();
-		jdbcTemplate.query(sqlStr, new Object[] { userName },
-				new RowCallbackHandler() {
-					public void processRow(ResultSet rs) throws SQLException {
-						user.setUserId(rs.getInt("user_id"));
-						user.setUserName(userName);
-						user.setCredits(rs.getInt("credits"));
-					}
-				});
-		return user;
-	}
+    /**
+     * 根据用户名查询User对象
+     *
+     * @param userName 用户名
+     * @return 对应userName的User对象，如果不存在，返回null。
+     */
+    public User getUserByUserName(String userName) {
+        List<User> users = (List<User>) getHibernateTemplate().find(GET_USER_BY_USERNAME, userName);
+        if (users.size() == 0) {
+            return null;
+        } else {
+            return users.get(0);
+        }
+    }
 
-	public void updateLoginInfo(User user) {
-		jdbcTemplate.update(UPDATE_LOGIN_INFO_SQL, new Object[] { user.getLastVisit(),
-				user.getLastIp(),user.getCredits(),user.getUserId()});
-	}
+    /**
+     * 根据用户名为模糊查询条件，查询出所有前缀匹配的User对象
+     *
+     * @param userName 用户名查询条件
+     * @return 用户名前缀匹配的所有User对象
+     */
+    public List<User> queryUserByUserName(String userName) {
+        return (List<User>) getHibernateTemplate().find(QUERY_USER_BY_USERNAME, userName + "%");
+    }
 
-	@Autowired
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 }

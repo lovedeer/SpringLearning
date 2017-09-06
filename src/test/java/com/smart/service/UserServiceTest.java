@@ -1,44 +1,104 @@
 package com.smart.service;
 
-import java.util.Date;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import org.testng.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import com.smart.dao.UserDao;
 import com.smart.domain.User;
-import static org.testng.Assert.*;
+import com.smart.exception.UserExistException;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-@ContextConfiguration("classpath*:/smart-context.xml")
-public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTests {
+import static org.mockito.Mockito.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
-	@Autowired
-    private UserService userService;
+/**
+ * 测试用户管理器服务类的方法
+ * 
+ */
+public class UserServiceTest extends BaseServiceTest {
+	private UserDao userDao;
+	private UserService userService;
 
+	@BeforeClass
+	public void init() {
+		userDao = mock(UserDao.class);
+	    userService = new UserService();
+		ReflectionTestUtils.setField(userService, "userDao", userDao);
+	}
+	
 	@Test
-	public void testHasMatchUser() {
-		boolean b1 = userService.hasMatchUser("admin", "123456");
-		boolean b2 = userService.hasMatchUser("admin", "1111");
-		assertTrue(b1);
-		assertTrue(!b2);
+	public void register() throws UserExistException{
+		User user = new User();
+		user.setUserName("testwww");
+		user.setPassword("1234");
+		
+		doAnswer(new Answer<User>() {
+			public User answer(InvocationOnMock invocation) {
+				Object[] args = invocation.getArguments();
+				User user = (User) args[0];
+				if (user != null) {
+					user.setUserId(1);
+				}
+				return user;
+			}
+		}).when(userDao).save(user);
+			
+		userService.register(user);
+		assertEquals(user.getUserId(), 1);
+		verify(userDao, times(1)).save(user);
+	}
+	
+
+	/**
+	 * 测试根据用户名模糊查询用户列表的方式
+	 */
+	@Test
+	public void getUserByUserName() {
+		User user = new User();
+		user.setUserName("tom");
+		user.setPassword("1234");
+		user.setCredit(100);
+		doReturn(user).when(userDao).getUserByUserName("tom");
+		
+		
+		User u = userService.getUserByUserName("tom");
+		assertNotNull(u);
+		assertEquals(u.getUserName(), user.getUserName());
+		verify(userDao, times(1)).getUserByUserName("tom");
 	}
 
+	/**
+	 * 测试锁定用户的服务方法
+	 */
 	@Test
-     public void testFindUserByUserName()throws Exception{
-        for(int i =0; i< 100;i++) {
-            User user = userService.findUserByUserName("admin");
-            assertEquals(user.getUserName(), "admin");
-        }
+	public void lockUser() {
+		User user = new User();
+		user.setUserName("tom");
+		user.setPassword("1234");
+		doReturn(user).when(userDao).getUserByUserName("tom");
+		doNothing().when(userDao).update(user);
 
-    }
+	    userService.lockUser("tom");
+		User u = userService.getUserByUserName("tom");
 
-
-	@Test
-	public void testAddLoginLog() {
-		User user = userService.findUserByUserName("admin");
-		user.setUserId(1);
-		user.setUserName("admin");
-		user.setLastIp("192.168.12.7");
-		user.setLastVisit(new Date());
-		userService.loginSuccess(user);
+		assertEquals(User.USER_LOCK, u.getLocked());
 	}
+    
+	@Test
+	public void unlockUser() {
+
+		User user = new User();
+		user.setUserName("tom");
+		user.setPassword("1234");
+		user.setLocked(User.USER_LOCK);
+		doReturn(user).when(userDao).getUserByUserName("tom");
+		doNothing().when(userDao).update(user);
+
+		userService.unlockUser("tom");
+		User u = userService.getUserByUserName("tom");
+		assertEquals(User.USER_UNLOCK, u.getLocked());
+	}
+
 }

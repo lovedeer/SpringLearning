@@ -1,46 +1,60 @@
 package com.smart.domain;
-import java.io.Serializable;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 import java.util.Date;
 
-public class LoginLog implements Serializable{
-	private int loginLogId;
+@Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "t_login_log")
+public class LoginLog extends BaseDomain {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "login_log_id")
+    private int loginLogId;
 
-	private int userId;
+    @Column(name = "login_datetime")
+    private Date loginDate;
 
-	private String ip;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	private Date loginDate;
+    private String ip;
 
-	public String getIp() {
-		return ip;
-	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
+    public int getLoginLogId() {
+        return loginLogId;
+    }
 
-	public Date getLoginDate() {
-		return loginDate;
-	}
+    public void setLoginLogId(int loginLogId) {
+        this.loginLogId = loginLogId;
+    }
 
-	public void setLoginDate(Date loginDate) {
-		this.loginDate = loginDate;
-	}
+    public String getIp() {
+        return ip;
+    }
 
-	public int getLoginLogId() {
-		return loginLogId;
-	}
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
-	public void setLoginLogId(int loginLogId) {
-		this.loginLogId = loginLogId;
-	}
+    public Date getLoginDate() {
+        return loginDate;
+    }
 
-	public int getUserId() {
-		return userId;
-	}
+    public void setLoginDate(Date loginDate) {
+        this.loginDate = loginDate;
+    }
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 }
