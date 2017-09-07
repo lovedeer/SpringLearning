@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="js/angular.min.js"></script>
+    <title>论坛</title>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<table border="1px" width="100%">
+    <tr>
+        <td width="20%">版块名称</td>
+        <td width="70%">版块简介</td>
+        <td width="10%">主题帖数</td>
+    </tr>
+    <tr ng-repeat="x in boards">
+        <td>{{x.boardName}}</td>
+        <td>{{x.boardDesc}}</td>
+        <td>{{x.topicNum}}</td>
+    </tr>
+</table>
+<script>
+    var  app =angular.module("myApp",[]);
+    app.controller("myCtrl",function($scope,$http){
+        $scope.boards = $http.response.getAsString();
+    });
+
+</script>
+</body>
+</html>
