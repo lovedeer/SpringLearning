@@ -20,8 +20,6 @@
         $http({
             method: 'get',
             url: 'board/listBoardTopics-' + $location.search().boardId
-//                data: boardId
-//            headers:{ "Accept": "application/json, text/plain,*/*"}
         }).then(function successCallback(response) {
             alert(response.data);
         }, function errorCallback(response) {
