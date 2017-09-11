@@ -24,8 +24,8 @@
             $http({
                 method: 'post',
                 url: 'login.do',
-                data: $scope.loginInfo,
-                headers: {'Content-Type': 'application/json;charset=UTF-8', 'Accept': 'application/json'}
+                data: $scope.loginInfo
+//                headers: {'Content-Type': 'application/json;charset=UTF-8', 'Accept': 'application/json'}
             }).then(function successCallback(response) {
                alert(response.data.success);
             }, function errorCallback(response) {

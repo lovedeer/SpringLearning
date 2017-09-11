@@ -51,13 +51,16 @@ public class ForumManageController extends BaseController {
 //        view.addObject("boards", boards);
 //        request.setAttribute("boards", boards);
 //        view.setViewName("/index");
-        Board board = new Board();
-        board.setBoardName("a");
-        board.setBoardDesc("b");
-        board.setTopicNum(10);
-        List<Board> list = new ArrayList<Board>();
-        list.add(board);
-        return list;
+//        Board board = new Board();
+//        board.setBoardName("a");
+//        board.setBoardDesc("b");
+//        board.setTopicNum(10);
+//        List<Board> list = new ArrayList<Board>();
+//        list.add(board);
+        for (Board b : boards) {
+            b.setUsers(null);
+        }
+        return boards;
     }
 
     /**

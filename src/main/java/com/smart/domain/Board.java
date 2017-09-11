@@ -1,5 +1,6 @@
 package com.smart.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -25,7 +26,8 @@ public class Board extends BaseDomain {
     @Column(name = "topic_num")
     private int topicNum;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "manBoards", fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "manBoards", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<User>();
 
     public int getTopicNum() {

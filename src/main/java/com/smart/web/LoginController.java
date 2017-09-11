@@ -36,7 +36,7 @@ public class LoginController extends BaseController {
      */
 	@RequestMapping("/doLogin")
 	public ModelAndView login(HttpServletRequest request, User user) {
-		User dbUser = userService.getUserByUserName(user.getUserName());
+			User dbUser = userService.getUserByUserName(user.getUserName());
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("forward:/login.jsp");
 		if (dbUser == null) {

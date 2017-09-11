@@ -324,7 +324,7 @@
                         </connector>
                     </connectors>
                     <contextPath>/bbs</contextPath>
-                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                    <scanIntervalSeconds>1</scanIntervalSeconds>
                 </configuration>
             </plugin>
 

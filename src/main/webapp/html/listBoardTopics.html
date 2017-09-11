@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="resources/angular.min.js"></script>
+    <title>Title</title>
+    <base href="/bbs/" />
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+
+
+
+<script>
+    var app = angular.module("myApp", []);
+    app.config(['$locationProvider', function($locationProvider) {
+        $locationProvider.html5Mode(true);
+    }]);
+    app.controller("myCtrl", function ($scope, $http, $location) {
+        $http({
+            method: 'get',
+            url: 'board/listBoardTopics-' + $location.search().boardId
+//                data: boardId
+//            headers:{ "Accept": "application/json, text/plain,*/*"}
+        }).then(function successCallback(response) {
+            alert(response.data);
+        }, function errorCallback(response) {
+            console.info("b");
+        });
+    });
+</script>
+</body>
+</html>
