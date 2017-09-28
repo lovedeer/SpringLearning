@@ -15,7 +15,7 @@
     <mvc:annotation-driven/>
     <!--<mvc:default-servlet-handler/>-->
     <mvc:resources mapping="/resources/**" location="/js/" />
-    <mvc:resources mapping="/**" location="/html/" />
+    <mvc:resources mapping="/**" location="/app/login/" />
     <bean id="jsonConverter"
           class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
         <property name="supportedMediaTypes">
