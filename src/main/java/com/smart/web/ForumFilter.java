@@ -20,7 +20,7 @@ public class ForumFilter implements Filter {
 	private static final String[] INHERENT_ESCAPE_URIS = { "/index.jsp",
 			"/index.html", "/login.jsp", "/login/doLogin.html",
 			"/register.jsp", "/register.html", "/board/listBoardTopics-",
-			"/board/listTopicPosts-" };
+			"/board/listTopicPosts-", "/main.html","/page1.html","/page2.html"};
 
 	// ② 执行过滤
 	public void doFilter(ServletRequest request, ServletResponse response,
