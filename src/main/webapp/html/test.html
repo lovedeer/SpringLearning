@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="resources/angular.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<div ng-app="MyApp">
+    <div ng-controller="myController as ctrl">
+        <input type="text"  />
+        <div>{{ctrl.ParsedValue}}</div>
+    </div>
+</div>
+
+</body>
+<script>
+    angular.module("MyApp",[])
+        .controller("myController", function($scope, $parse){
+            var getter = $parse('a+b');
+            var setter = getter.assign;
+            this.context = {a:1,b:2};
+            var locals = {a:2};
+            this.ParsedValue = getter(this.context, locals);
+        });
+</script>
+</html>
