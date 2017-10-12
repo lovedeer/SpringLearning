@@ -2,9 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="resources/angular.js"></script>
+    <script src="resources/angular-route.js"></script>
+    <script type="text/javascript">
+        angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
+    </script>
     <title>Title</title>
+    <!--<base href="/">-->
 </head>
 <body>
+<div ng-app="myApp">
+    <a href="main">page1</a>
+    <a href="child">page2</a>
+    <div ng-view></div>
+</div>
+
 
 </body>
+<script>
+    angular.module("myApp", ["ngRoute"]).controller("page1Ctrl", ["$scope", "$location", function ($scope, $location) {
+        $scope.content = " page 1";
+        $scope.direct = function () {
+            $location.path("/child");
+        }
+
+    }]).controller("page2Ctrl", ["$scope", function ($scope) {
+        $scope.content = "page 2";
+    }]).config(["$routeProvider", "$locationProvider","$provide", function ($routeProvider, $locationProvider,$provide) {
+        $routeProvider.when("/main", {
+            template: '<p>这是page1</p>',
+            controller: "page1Ctrl"
+        }).when("/child", {
+            templateUrl: "page2.html",
+            controller: "page2Ctrl"
+        });
+        $locationProvider.html5Mode(true).hashPrefix('');
+//        $provide.decorator('$sniffer', function($delegate) {
+//            $delegate.history = false;
+//            return $delegate;
+//        });
+    }]);
+
+</script>
 </html>

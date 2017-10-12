@@ -1,0 +1,15 @@
+<form novalidate name="form">
+    <div ng-show="form.$submitted">
+        <div ng-show="form.username.$error.required">username can't be empty!</div>
+        <div ng-show="form.password.$error.required">password can't be empty!</div>
+        <div ng-show="$ctrl.error">wrong username or password!</div>
+    </div>
+    <ul>
+        <li>username:<input type="text" required name="username" ng-model="$ctrl.username"/></li>
+        <br/>
+        <li>password:<input type="password" required name="password" ng-model="$ctrl.password"/></li>
+        <br/>
+        <li><input type="button" value="reset" ng-click="$ctrl.reset()"/></li>
+        <li><input type="submit" ng-click="$ctrl.login()" value="submit"></li>
+    </ul>
+</form>

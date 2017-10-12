@@ -1,4 +1,4 @@
-angular.module("loginApp", ['ngResource']).controller("loginCtrl", ['$resource', '$location', function ($resource, $location) {
+angular.module("loginApp", ['ngResource']).controller("loginCtrl", ['$resource', '$location', '$rootscope',function ($resource, $location,$rootscope) {
     this.reset = function () {
         this.username = "";
         this.password = "";
@@ -13,7 +13,10 @@ angular.module("loginApp", ['ngResource']).controller("loginCtrl", ['$resource',
                 self.error = true;
             }
             else {
-               window.location="index.html";
+                $rootscope.username = user.userName;
+                $rootscope.credit = user.credit;
+                $rootscope.userType = user.userType;
+                window.location="index.html";
             }
         });
     };
