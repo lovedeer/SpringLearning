@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app" ng-controller="appCtrl as ctrl">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <script src="resources/angular.js"></script>
+    <script src="resources/angular-resource.js"></script>
+    <script src="resources/angular-route.js"></script>
+    <script src="resources/jquery-3.2.1.js"></script>
+    <script src="resources/angular-cookies.js"></script>
+    <script src="resources/app.module.js"></script>
+    <script src="resources/app.config.js"></script>
+    <script src="resources/top.module.js"></script>
+    <script src="resources/top.component.js"></script>
+    <script src="resources/board.module.js"></script>
+    <script src="resources/board.component.js"></script>
+    <script src="resources/post.module.js"></script>
+    <script src="resources/post.component.js"></script>
+    <script src="resources/navigator.module.js"></script>
+    <script src="resources/navigator.component.js"></script>
+    <script src="resources/bootstrap.js"></script>
+    <link rel="stylesheet" href="resources/bootstrap.css">
+    <link rel="stylesheet" href="resources/global.css">
+    <title>FORUM</title>
 </head>
 <body>
-$END$
+<div ng-show="ctrl.show">
+    <top></top>
+</div>
+<div class="view-container">
+    <div ng-view></div>
+</div>
 </body>
 </html>

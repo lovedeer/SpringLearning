@@ -1,6 +1,8 @@
 
 package com.smart.web;
 
+import com.smart.cons.CommonConstant;
+import com.smart.dao.Page;
 import com.smart.domain.Board;
 import com.smart.domain.User;
 import com.smart.service.ForumService;
@@ -43,23 +45,11 @@ public class ForumManageController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/index1", method = RequestMethod.GET)
+    @RequestMapping(value = "/boards", method = RequestMethod.GET)
     @ResponseBody
-    public List<Board> listAllBoards(HttpServletRequest request) {
-//        ModelAndView view = new ModelAndView();
-        List<Board> boards = forumService.getAllBoards();
-//        view.addObject("boards", boards);
-//        request.setAttribute("boards", boards);
-//        view.setViewName("/index");
-//        Board board = new Board();
-//        board.setBoardName("a");
-//        board.setBoardDesc("b");
-//        board.setTopicNum(10);
-//        List<Board> list = new ArrayList<Board>();
-//        list.add(board);
-        for (Board b : boards) {
-            b.setUsers(null);
-        }
+    public Page listAllBoards(@RequestParam(value = "pageNo", required = false) Integer pageNo) {
+        pageNo = pageNo == null ? 1 : pageNo;
+        Page boards = forumService.getPagedBoards(pageNo, CommonConstant.PAGE_SIZE);
         return boards;
     }
 

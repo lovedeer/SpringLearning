@@ -1,5 +1,6 @@
 package com.smart.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -34,6 +35,7 @@ public class Topic extends BaseDomain {
     @Column(name = "board_id")
     private int boardId;
 
+    @JsonIgnore
     @Transient
     private MainPost mainPost = new MainPost();
 

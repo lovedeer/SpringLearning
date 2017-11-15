@@ -1,0 +1,59 @@
+<html>
+<head>
+    <script src="resources/angular.js"></script>
+    <script src="resources/angular-resource.js"></script>
+    <script src="resources/angular-cookies.js"></script>
+    <script src="resources/jquery-3.2.1.js"></script>
+    <script src="resources/bootstrap.js"></script>
+    <link rel="stylesheet" href="resources/bootstrap.css">
+    <script src="resources/login.module.js"></script>
+    <script src="resources/login.component.js"></script>
+    <title>Login In</title>
+</head>
+<body style="background: url('resources/login.jpg') no-repeat; background-position:80% 87%;" ng-app="login">
+<div class="panel panel-info col-lg-offset-2 col-lg-4" style="position:relative;margin-top:15%;padding: 0">
+    <div login-drag class="panel-heading" style="background-color: #56bf58">
+        <h5 class="panel-title text-center">LOGIN IN</h5>
+    </div>
+    <div class="panel-body">
+        <form novalidate name="form" ng-controller="loginCtrl as ctrl" role="form"
+              class="form-horizontal">
+            <div class="form-group  has-error">
+                <label class="col-lg-offset-2 col-lg-7 control-label">{{ctrl.error}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">username:</label>
+                <div class="col-lg-6">
+                    <input type="text" required="required" name="username" ng-model="ctrl.username"
+                           class="form-control"/>
+                </div>
+                <div class="col-lg-3 has-error" ng-show="form.$submitted && form.username.$error.required">
+                    <p class="control-label">can't be empty!</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">password:</label>
+                <div class="col-lg-6">
+                    <input type="password" required="required" name="password" ng-model="ctrl.password"
+                           class="form-control"/>
+                </div>
+                <div class="col-lg-3 has-error" ng-show="form.$submitted && form.password.$error.required">
+                    <p class="control-label">can't be empty!</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-3">
+                    <button ng-click="ctrl.reset()" type="button"
+                            class="btn btn-primary btn-block">reset
+                    </button>
+                </div>
+                <div class="col-lg-3">
+                    <input ng-click="ctrl.login()" type="submit"
+                           class="btn btn-primary btn-block" value="submit"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

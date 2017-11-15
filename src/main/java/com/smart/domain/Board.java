@@ -27,7 +27,7 @@ public class Board extends BaseDomain {
     private int topicNum;
 
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "manBoards", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "manBoards", fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 
     public int getTopicNum() {

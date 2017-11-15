@@ -11,7 +11,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         System.out.println(bean.getClass().getName());
         if (beanName.equals("leader2")) {
-            Leader leader = (Leader)((ProxyFactoryBean)bean).getObject();
+            Leader leader = (Leader) ((ProxyFactoryBean) bean).getObject();
             Leaderdelegate leaderdelegate = new Leaderdelegate(leader);
             leaderdelegate.service();
         }

@@ -1,0 +1,7 @@
+a:hover {
+    cursor: pointer;
+    text-decoration: none;
+}
+div.navigator a {
+    padding:4px;
+}

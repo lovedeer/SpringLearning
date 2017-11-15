@@ -1,3 +1,8 @@
-<a href="app" ng-show="$rootscope.userName!=null">首页</a>&nbsp;&nbsp;
-<div ng-show="$rootscope.userName!=null">{{$rootscope.userName ($rootscope.credit)}},欢迎您的到来,</div>
-
+<div class="container-fluid" style="margin:10px 0 10px 0 ">
+    <div class="row">
+        <a class="col-lg-1" ng-href="app.html#!/board">首页</a>
+        <div>
+            {{$ctrl.userName + " " +$ctrl.credit}},欢迎您的到来
+        </div>
+    </div>
+</div>
