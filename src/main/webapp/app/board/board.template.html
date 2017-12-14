@@ -9,14 +9,14 @@
             </tr>
             </thead>
             <tr ng-repeat="x in $ctrl.boards.result">
-                <td class="col-lg-3"><a ng-href="#!/board/{{x.boardId}}/post">{{x.boardName}}</a></td>
+                <td class="col-lg-3"><a ng-href="#!/board/{{x.boardId}}/topic">{{x.boardName}}</a></td>
                 <td class="col-lg-6">{{x.boardDesc}}</td>
                 <td class="col-lg-1">{{x.topicNum}}</td>
             </tr>
         </table>
 
         <navigator current-page="$ctrl.boards.currentPageNo" has-next="$ctrl.boards.hasNextPage" has-pre="$ctrl.boards.hasPreviousPage"
-                   total-page="$ctrl.boards.totalPageCount"  total-count="$ctrl.boards.totalPageCount" goto-page="$ctrl.gotoPage(pageNo)"></navigator>
+                   total-page="$ctrl.boards.totalPageCount"  total-count="$ctrl.boards.totalCount" goto-page="$ctrl.gotoPage(pageNo)"></navigator>
     </div>
 
 </div>

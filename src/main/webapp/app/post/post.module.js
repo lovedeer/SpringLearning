@@ -1,3 +1,2 @@
 'use strict';
-
-angular.module('post',['ngResource']);
+angular.module('post', []);

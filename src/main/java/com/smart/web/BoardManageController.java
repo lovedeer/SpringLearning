@@ -11,11 +11,13 @@ import com.smart.domain.Post;
 import com.smart.domain.Topic;
 import com.smart.domain.User;
 import com.smart.service.ForumService;
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.script.ScriptEngine;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,7 +45,7 @@ public class BoardManageController extends BaseController {
      * @param boardId
      * @return
      */
-    @RequestMapping(value = "/boards/{boardId}/post", method = RequestMethod.GET)
+    @RequestMapping(value = "/boards/{boardId}/topic", method = RequestMethod.GET)
     @ResponseBody
     public Page listBoardTopics(@PathVariable Integer boardId, @RequestParam(value = "pageNo", required = false) Integer pageNo) {
 //		ModelAndView view =new ModelAndView();
@@ -94,41 +96,39 @@ public class BoardManageController extends BaseController {
      * @param topicId
      * @return
      */
-    @RequestMapping(value = "/board/listTopicPosts-{topicId}", method = RequestMethod.GET)
-    public ModelAndView listTopicPosts(@PathVariable Integer topicId, @RequestParam(value = "pageNo", required = false) Integer pageNo) {
-        ModelAndView view = new ModelAndView();
-        Topic topic = forumService.getTopicByTopicId(topicId);
+    @RequestMapping(value = "/board/{boardId}/topic/{topicId}/post", method = RequestMethod.GET)
+    @ResponseBody
+    public Page listTopicPosts(@PathVariable Integer boardId, @PathVariable Integer topicId, @RequestParam(value = "pageNo", required = false) Integer pageNo) {
         pageNo = pageNo == null ? 1 : pageNo;
         Page pagedPost = forumService.getPagedPosts(topicId, pageNo,
                 CommonConstant.PAGE_SIZE);
-        // 为回复帖子表单准备数据
-        view.addObject("topic", topic);
-        view.addObject("pagedPost", pagedPost);
-        view.setViewName("/listTopicPosts");
-        return view;
+        return pagedPost;
     }
 
     /**
      * 回复主题
      *
-     * @param request
-     * @param post
      * @return
      */
-    @RequestMapping(value = "/board/addPost")
-    public String addPost(HttpServletRequest request, Post post) {
+    @RequestMapping(value = "/board/{boardId}/topic/{topicId}/post/reply", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public Page addPost(HttpServletRequest request, @PathVariable Integer boardId, @PathVariable Integer topicId, @RequestBody String params) throws Exception {
+        Post post = new Post();
         post.setCreateTime(new Date());
         post.setUser(getSessionUser(request));
         Topic topic = new Topic();
-        int topicId = Integer.valueOf(request.getParameter("topicId"));
-        if (topicId > 0) {
-            topic.setTopicId(topicId);
-            post.setTopic(topic);
-        }
+        topic.setTopicId(topicId);
+        ScriptEngine engine = new NashornScriptEngineFactory().getScriptEngine("nashorn");
+        Integer pageNo = (Integer) engine.eval("var a = " + params + ";a['pageNo']");
+        String postTitle = (String) engine.eval("var a = " + params + ";a['postTitle']");
+        String postText = (String) engine.eval("var a = " + params + ";a['postText']");
+        post.setPostTitle(postTitle);
+        post.setPostText(postText);
+        post.setBoardId(boardId);
+        post.setTopic(topic);
         forumService.addPost(post);
-        String targetUrl = "/board/listTopicPosts-"
-                + post.getTopic().getTopicId() + ".html";
-        return "redirect:" + targetUrl;
+        pageNo = pageNo == null ? 1 : pageNo;
+        return forumService.getPagedPosts(topicId, pageNo, CommonConstant.PAGE_SIZE);
     }
 
     /**
@@ -147,11 +147,12 @@ public class BoardManageController extends BaseController {
     /**
      * 删除主题
      */
-    @RequestMapping(value = "/boards/{boardId}/post", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/boards/{boardId}/topic/delete", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public Page removeTopic(HttpServletRequest request, @PathVariable Integer boardId) {
-        String topicIds = request.getParameter("topicIds");
-        Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
+    public Page removeTopic(HttpServletRequest request, @PathVariable Integer boardId, @RequestBody String params) throws Exception {
+        ScriptEngine engine = new NashornScriptEngineFactory().getScriptEngine("nashorn");
+        String topicIds = (String) engine.eval("var a = " + params + ";a['topicIds']");
+        Integer pageNo = (Integer) engine.eval("var a = " + params + ";a['pageNo']");
         String[] arrIds = topicIds.split(",");
         for (int i = 0; i < arrIds.length; i++) {
             forumService.removeTopic(new Integer(arrIds[i]));
@@ -165,11 +166,12 @@ public class BoardManageController extends BaseController {
     /**
      * 设置精华帖
      */
-    @RequestMapping(value = "/boards/{boardId}/post", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/boards/{boardId}/topic", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public Page makeDigestTopic(HttpServletRequest request, @PathVariable Integer boardId,@RequestBody String params) {
-        String topicIds = request.getParameter("topicIds");
-        Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
+    public Page makeDigestTopic(HttpServletRequest request, @PathVariable Integer boardId, @RequestBody String params) throws Exception {
+        ScriptEngine engine = new NashornScriptEngineFactory().getScriptEngine("nashorn");
+        String topicIds = (String) engine.eval("var a = " + params + ";a['topicIds']");
+        Integer pageNo = (Integer) engine.eval("var a = " + params + ";a['pageNo']");
         String[] arrIds = topicIds.split(",");
         for (int i = 0; i < arrIds.length; i++) {
             forumService.makeDigestTopic(new Integer(arrIds[i]));

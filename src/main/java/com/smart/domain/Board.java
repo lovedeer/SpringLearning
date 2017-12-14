@@ -1,33 +1,19 @@
 package com.smart.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Table(name = "t_board")
+
 public class Board extends BaseDomain {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
+
     private int boardId;
 
-    @Column(name = "board_name")
     private String boardName;
 
-    @Column(name = "board_desc")
     private String boardDesc;
 
-    @Column(name = "topic_num")
     private int topicNum;
 
-    @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "manBoards", fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<User>();
 
     public int getTopicNum() {

@@ -5,6 +5,7 @@ angular.module('app',[
     'ngCookies',
     'top',
     'board',
-    'post',
-    'navigator'
+    'topic',
+    'navigator',
+    'post'
 ]);

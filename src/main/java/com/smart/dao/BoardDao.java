@@ -1,25 +1,22 @@
 package com.smart.dao;
 
 import com.smart.domain.Board;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.Iterator;
+import java.util.List;
 
-@Repository
-public class BoardDao extends BaseDao<Board> {
-    private static final String GET_BOARD_NUM;
-    private static final String GET_PAGED_BOARDS=" from Board order by id";
+public interface BoardDao {
 
-    static {
-        GET_BOARD_NUM = "select count(f.boardId) from Board f";
-    }
+    long getBoardNum();
 
-    public long getBoardNum() {
-        Iterator iter = getHibernateTemplate().iterate(GET_BOARD_NUM);
-        return ((Long) iter.next());
-    }
+    List<Board> getPagedBoards(@Param("start") int pageNo, @Param("pageSize") int pageSize);
 
-    public Page getPagedBoards(int pageNo, int pageSize) {
-        return pagedQuery(GET_PAGED_BOARDS,pageNo,pageSize,new Object[]{});
-    }
+    List<Board> getAllBoards();
+    void save(Board t);
+
+    void update(Board t);
+
+    void remove(Board t);
+
+    Board get(int objectId);
 }

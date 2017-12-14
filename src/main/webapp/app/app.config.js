@@ -12,18 +12,18 @@ angular
         self.show = true;
     });
 }])
-    // .factory('MyInterceptor', ['$cookies', '$q', function ($cookies, $q) {
-    //     return {
-    //         // 可选，拦截成功的请求
-    //         request: function (config) {
-    //             if (!$cookies.get('show')) {
-    //                 config.url = 'http://127.0.0.1:8080/bbs/login.html';
-    //                 window.location.href = 'login.html';
-    //             }
-    //            else  return config || $q.when(config);
-    //         }
-    //     }
-    // }])
+// .factory('MyInterceptor', ['$cookies', '$q', function ($cookies, $q) {
+//     return {
+//         // 可选，拦截成功的请求
+//         request: function (config) {
+//             if (!$cookies.get('show')) {
+//                 config.url = 'http://127.0.0.1:8080/bbs/login.html';
+//                 window.location.href = 'login.html';
+//             }
+//            else  return config || $q.when(config);
+//         }
+//     }
+// }])
     .config(['$locationProvider', '$routeProvider', '$httpProvider',
         function config($locationProvider, $routeProvider, $httpProvider) {
             // $httpProvider.interceptors.push('MyInterceptor');
@@ -32,7 +32,11 @@ angular
                 .when('/board', {
                     template: '<board></board>'
                 })
-                .when('/board/:boardId/post', {
+                .when('/board/:boardId/topic', {
+                    template: '<topic></topic>'
+                })
+                .when('/board/:boardId/topic/:topicId/post', {
                     template: '<post></post>'
-                }).otherwise('/board');
+                })
+                .otherwise('/board');
         }]);

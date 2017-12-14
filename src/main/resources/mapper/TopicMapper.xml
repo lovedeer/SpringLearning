@@ -1,0 +1,25 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smart.dao.TopicDao">
+    <resultMap id="topicMap" type="topic">
+        <id property="topicId" column="topic_id" />
+        <result property="boardId" column="board_id" />
+        <result property="topicTitle" column="topic_title" />
+        <result property="lastPost" column="last_post" />
+        <result property="topicViews" column="topic_views" />
+        <result property="topicReplies" column="topic_replies" />
+        <result property="digest" column="digest" />
+    </resultMap>
+    <select id="getBoardDigestTopics"></select>
+
+    <select id="getPagedTopics" resultMap="topicMap">
+        SELECT t.topic_id ,t.board_id , t.topic_title ,t.last_post,t.topic_replies,t.topic_views,t.digest,
+        u.user_id,u.user_name,u.user_type,u.user_credit
+        FROM t_topic t LEFT OUTER JOIN t_user u on t.user_id = u.user_id WHERE board_id = #{boardId} ORDER BY last_post LIMIT #{start}, #{pageSize}
+    </select>
+    <select id="queryTopicByTitle"></select>
+    <update id="update"></update>
+    <select id="get"></select>
+    <insert id="save"></insert>
+    <delete id="remove"></delete>
+</mapper>

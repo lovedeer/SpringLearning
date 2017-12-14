@@ -1,0 +1,11 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smart.dao.LoginLogDao">
+    <insert id="saveLoginLog" keyProperty="login_log_id" useGeneratedKeys="true" parameterType="loginLog">
+        INSERT INTO t_login_log (user_id,ip,login_datetime) VALUES (#{user.userId},#{ip},#{loginDate})
+    </insert>
+    <select id="get"></select>
+    <update id="update"></update>
+    <insert id="save"></insert>
+    <delete id="remove"></delete>
+</mapper>

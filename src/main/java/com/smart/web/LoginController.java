@@ -31,40 +31,6 @@ public class LoginController extends BaseController {
         this.userService = userService;
     }
 
-    /**
-     * 用户登陆
-     *
-     * @param request
-     * @param user
-     * @return
-     */
-    @RequestMapping("/doLogin")
-    public ModelAndView login(HttpServletRequest request, User user) {
-        User dbUser = userService.getUserByUserName(user.getUserName());
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("forward:/login.jsp");
-        if (dbUser == null) {
-            mav.addObject("errorMsg", "用户名不存在");
-        } else if (!dbUser.getPassword().equals(user.getPassword())) {
-            mav.addObject("errorMsg", "用户密码不正确");
-        } else if (dbUser.getLocked() == User.USER_LOCK) {
-            mav.addObject("errorMsg", "用户已经被锁定，不能登录。");
-        } else {
-            dbUser.setLastIp(request.getRemoteAddr());
-            dbUser.setLastVisit(new Date());
-            userService.loginSuccess(dbUser);
-            setSessionUser(request, dbUser);
-            String toUrl = (String) request.getSession().getAttribute(CommonConstant.LOGIN_TO_URL);
-            request.getSession().removeAttribute(CommonConstant.LOGIN_TO_URL);
-            //如果当前会话中没有保存登录之前的请求URL，则直接跳转到主页
-            if (StringUtils.isEmpty(toUrl)) {
-                toUrl = "/index.html";
-            }
-            mav.setViewName("redirect:" + toUrl);
-        }
-        return mav;
-    }
-
     @RequestMapping(value = "/username/{username}/password/{password}", method = RequestMethod.GET)
     @ResponseBody
     public User login(HttpServletRequest request, @PathVariable String username, @PathVariable String password) {
@@ -76,7 +42,6 @@ public class LoginController extends BaseController {
             dbUser.setLastVisit(new Date());
             userService.loginSuccess(dbUser);
             setSessionUser(request, dbUser);
-            String toUrl = (String) request.getSession().getAttribute(CommonConstant.LOGIN_TO_URL);
             request.getSession().removeAttribute(CommonConstant.LOGIN_TO_URL);
             return dbUser;
         }

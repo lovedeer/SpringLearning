@@ -1,0 +1,24 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smart.dao.BoardDao">
+    <cache size="1"/>
+    <resultMap id="boardMap" type="board">
+        <id property="boardId" column="board_id"/>
+        <result property="boardName" column="board_name"/>
+        <result property="boardDesc" column="board_desc"/>
+        <result property="topicNum" column="topic_num"/>
+    </resultMap>
+    <select id="getBoardNum" resultType="long">
+        SELECT COUNT(*) FROM  t_board
+    </select>
+
+    <select id="getPagedBoards" resultMap="boardMap">
+          SELECT * FROM t_board ORDER BY board_id
+    </select>
+
+    <select id="getAllBoards"></select>
+    <select id="get"></select>
+    <update id="update"></update>
+    <insert id="save"></insert>
+    <delete id="remove"></delete>
+</mapper>

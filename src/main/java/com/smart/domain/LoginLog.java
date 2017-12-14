@@ -1,29 +1,17 @@
 package com.smart.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Table(name = "t_login_log")
+
 public class LoginLog extends BaseDomain {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "login_log_id")
+
     private int loginLogId;
 
-    @Column(name = "login_datetime")
     private Date loginDate;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     private String ip;
-
 
     public int getLoginLogId() {
         return loginLogId;

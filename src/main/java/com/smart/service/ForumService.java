@@ -149,7 +149,7 @@ public class ForumService {
      * 将帖子置为精华主题帖
      *
      * @param topicId 操作的目标主题帖ID
-     * @param digest  精华级别 可选的值为1，2，3
+     *                精华级别 可选的值为1，2，3
      */
     public void makeDigestTopic(int topicId) {
         Topic topic = topicDao.get(topicId);
@@ -167,11 +167,20 @@ public class ForumService {
      * @return
      */
     public List<Board> getAllBoards() {
-        return boardDao.loadAll();
+        return boardDao.getAllBoards();
     }
 
     public Page getPagedBoards(int pageNo, int pageSize) {
-        return boardDao.getPagedBoards(pageNo,pageSize);
+        try {
+            List<Board> boards = boardDao.getPagedBoards((pageNo - 1) * pageSize, pageSize);
+            long num = boardDao.getBoardNum();
+            Page page = new Page((pageNo - 1) * pageSize, num, pageSize, boards);
+            return page;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     /**
@@ -181,14 +190,14 @@ public class ForumService {
      * @return
      */
     public Page getPagedTopics(int boardId, int pageNo, int pageSize) {
-        return topicDao.getPagedTopics(boardId, pageNo, pageSize);
+        long num = topicDao.getTopicNum();
+        List<Topic> topics = topicDao.getPagedTopics(boardId, (pageNo - 1) * pageSize, pageSize);
+        Page page = new Page((pageNo - 1) * pageSize, num, pageSize, topics);
+        return page;
     }
 
     /**
      * 获取同主题每一页帖子，以最后回复时间降序排列
-     *
-     * @param boardId
-     * @return
      */
     public Page getPagedPosts(int topicId, int pageNo, int pageSize) {
         return postDao.getPagedPosts(topicId, pageNo, pageSize);
@@ -207,8 +216,6 @@ public class ForumService {
 
     /**
      * 根据boardId获取Board对象
-     *
-     * @param boardId
      */
     public Board getBoardById(int boardId) {
         return boardDao.get(boardId);
@@ -217,7 +224,6 @@ public class ForumService {
     /**
      * 根据topicId获取Topic对象
      *
-     * @param topicId
      * @return Topic
      */
     public Topic getTopicByTopicId(int topicId) {
@@ -227,7 +233,6 @@ public class ForumService {
     /**
      * 获取回复帖子的对象
      *
-     * @param postId
      * @return 回复帖子的对象
      */
     public Post getPostByPostId(int postId) {
@@ -253,8 +258,6 @@ public class ForumService {
 
     /**
      * 更改主题帖
-     *
-     * @param topic
      */
     public void updateTopic(Topic topic) {
         topicDao.update(topic);
@@ -262,8 +265,6 @@ public class ForumService {
 
     /**
      * 更改回复帖子的内容
-     *
-     * @param post
      */
     public void updatePost(Post post) {
         postDao.update(post);

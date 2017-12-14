@@ -14,7 +14,7 @@
     <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
     <mvc:annotation-driven/>
     <!--<mvc:default-servlet-handler/>-->
-    <mvc:resources mapping="/resources/**" location="/js/, /app/,/app/login/,/app/top/,/app/board/,/app/service/,/app/post/,/css/,/pic/,/app/navigator/" />
+    <mvc:resources mapping="/resources/**" location="/js/, /css/, /pic/,/app/" />
     <mvc:resources mapping="/**" location="/app/login/,/app/" />
     <bean id="jsonConverter"
           class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
